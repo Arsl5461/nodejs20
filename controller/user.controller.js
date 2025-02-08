@@ -9,7 +9,7 @@ exports.store = async (req, res) => {
         const { email, password } = req.body;
         const findedUser = await User.findOne({ email: email })
         if (findedUser) {
-            return res.json({ success: false, status: 400, message: "User already exists" })
+            return res.json({ success: false, status: 400, message: "Email already exists" })
         }
         const hashedPassword = await bcrypt.hash(password, SALT);
         req.body.password = hashedPassword;

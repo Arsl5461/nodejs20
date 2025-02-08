@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from "axios"
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +11,8 @@ const LoginForm = () => {
     password: '',
   });
   const [errors, setErrors] = useState({});
-  
+  const navigate=useNavigate();
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,7 +20,7 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validation
@@ -25,11 +29,16 @@ const LoginForm = () => {
     if (!formData.password) newErrors.password = 'Password is required';
 
     setErrors(newErrors);
-
-    // If there are no errors, you can send form data to the server
-    if (Object.keys(newErrors).length === 0) {
-      console.log('Login form submitted with data:', formData);
+    const response = await axios.post("http://localhost:8082/api/admin/user/login", formData)
+    if (response.data.success) {
+      toast.success(response.data.message)
+      localStorage.setItem("token", response.data.token);
+      navigate("/dashboard")
     }
+    else {
+      toast.error(response.data.message)
+    }
+
   };
 
   return (
