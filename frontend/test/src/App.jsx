@@ -6,6 +6,7 @@ import { Routes,Route } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ToastContainer} from "react-toastify"
 import Dashboard from "./pages/Dashboard"
+import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
     <Route path={"/"} element={<Home/>}></Route>
     <Route path={"/signup"} element={<Signup/>}></Route>
     <Route path={"/login"} element={<Login/>}></Route>
-    <Route path={"/dashboard"} element={<Dashboard/>}></Route>
+    <Route path={"/dashboard"} element={<ProtectedRoute><Dashboard/></ProtectedRoute>}></Route>
    </Routes>
    <ToastContainer/>
     </>

@@ -33,7 +33,9 @@ const LoginForm = () => {
     if (response.data.success) {
       toast.success(response.data.message)
       localStorage.setItem("token", response.data.token);
-      navigate("/dashboard")
+      setTimeout(()=>{
+        navigate("/dashboard")
+      },2000)
     }
     else {
       toast.error(response.data.message)
